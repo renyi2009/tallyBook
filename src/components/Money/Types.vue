@@ -32,7 +32,7 @@ export default {
 </script>-->
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component({
   props : {
@@ -42,6 +42,9 @@ import {Component} from 'vue-property-decorator';
 export default class Types extends Vue {
   type = '-';
 
+  @Prop(String) propA: string | undefined
+
+  helloMsg = 'hello' + this.xxx;
   selectType(type: string) {
     if (type !== '-' && type !== '+') {
       throw new Error('type is unknown');
@@ -50,7 +53,10 @@ export default class Types extends Vue {
     console.log(type);
   }
   mounted(){
+    console.log(this.helloMsg)
     console.log(this.xxx)
+    console.log(this.propA)
+
   }
 }
 </script>
