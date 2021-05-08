@@ -8,8 +8,8 @@
 
 <script lang="ts">
 export default {
-  name: "Statistics",
-}
+  name: 'Statistics',
+};
 </script>
 
 <style lang="scss" scoped>
