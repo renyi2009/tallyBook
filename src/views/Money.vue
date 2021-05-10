@@ -17,12 +17,14 @@ import Nodes from '@/components/Money/Notes.vue';
 import Tags from '@/components/Money/Tags.vue';
 import {Component, Watch} from 'vue-property-decorator';
 
+window.localStorage.setItem('version', '0.0.1')
+
 type Record = {
   tags: string[]
   notes: string
   type: string
   amount: number,
-  createdAt: Date
+  // createdAt: Date
 }
 
 @Component({
@@ -57,7 +59,7 @@ export default class Money extends Vue {
 
   saveRecord() {
     const record2: Record = JSON.parse(JSON.stringify(this.record));
-    record2.createdAt = new Date();
+    // record2.createdAt = new Date();
     this.recordList.push(record2);
   }
 
