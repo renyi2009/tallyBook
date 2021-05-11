@@ -16,6 +16,7 @@ body{
   text-align: center;
   color: #2c3e50;
   font-size: 16px;
+  background: #f5f5f5;
 }
 
 </style>

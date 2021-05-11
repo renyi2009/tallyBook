@@ -3,9 +3,11 @@
     <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"></NumberPad>
     <!--    <Types :value="record.type" @update:value="onUpdateType"></Types>-->
     <Types :value.sync="record.type"></Types>
-    <Nodes @update:value="onUpdateNotes"></Nodes>
+    <div class="notes">
+      <FormItem field-name="备注" placeholder="请输入备注" @update:value="onUpdateNotes"></FormItem>
+    </div>
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"></Tags>
-    {{ recordList }}
+    {{record}}
   </Layout>
 </template>
 
@@ -13,42 +15,28 @@
 import Vue from 'vue';
 import NumberPad from '@/components/Money/NumberPad.vue';
 import Types from '@/components/Money/Types.vue';
-import Nodes from '@/components/Money/Notes.vue';
+import FormItem from '@/components/Money/FormItem.vue';
 import Tags from '@/components/Money/Tags.vue';
 import {Component, Watch} from 'vue-property-decorator';
+import recordListModel from '@/models/recordListModel';
+import tagListModel from '@/models/tagListModel';
 
-const version = window.localStorage.getItem('versiono') || '0';
-const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+console.log('---', recordListModel);
 
-if (version === '0.0.1') {
-  // 数据库升级，数据迁移
-  recordList.forEach(record => {
-    record.createdAt = new Date(2020, 0, 1);
-  });
-  // 保存数据
-  window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+// const version = window.localStorage.getItem('version') || '0';
+const recordList = recordListModel.fetch();
+const tagList = tagListModel.fetch();
 
-}
-
-window.localStorage.setItem('version', '0.0.2');
-
-type Record = {
-  tags: string[]
-  notes: string
-  type: string
-  amount: number,
-  createdAt: Date
-}
 
 @Component({
-  components: {Tags, Nodes, Types, NumberPad}
+  components: {Tags, FormItem, Types, NumberPad}
 })
 export default class Money extends Vue {
-  tags = ['衣', '食', '住', '行'];
-
-  recordList: Record[] = recordList;
-
-  record: Record = {
+  // tags = ['衣', '食', '住', '行'];
+  tags = tagList;
+  recordList = recordList;
+  // eslint-disable-next-line no-undef
+  record: RecordItem = {
     tags: [],
     notes: '',
     type: '-',
@@ -71,14 +59,15 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    // eslint-disable-next-line no-undef
+    const record2: RecordItem = recordListModel.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
   }
 
   @Watch('recordList')
   onRecordListChange() {
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    recordListModel.save(this.recordList);
   }
 }
 </script>
@@ -87,5 +76,8 @@ export default class Money extends Vue {
 .layout-content {
   display: flex;
   flex-direction: column-reverse;
+}
+.notes{
+  padding: 12px 0;
 }
 </style>
