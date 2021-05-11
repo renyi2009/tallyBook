@@ -15,7 +15,9 @@ Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 
 window.tagList = tagListModel.fetch();
-
+window.findTag = (id: string) => {
+  return window.tagList.filter(t => t.id === id)[0];
+}
 window.createTag = (name: string) => {
   const message = tageListModel.create(name);
   if (message === 'duplicated') {
@@ -23,6 +25,19 @@ window.createTag = (name: string) => {
   } else if (message === 'success') {
     alert('添加成功');
   }
+};
+
+window.removeTag = (id: string) => {
+  /*if (tagListModel.remove(id)) {
+    return true;
+  } else {
+    return false;
+  }*/
+  return tageListModel.remove(id);
+};
+
+window.updateTag = (id: string, name: string) => {
+  return tageListModel.update(id, name);
 };
 
 new Vue({
