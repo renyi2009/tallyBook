@@ -18,8 +18,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tageListModel from '@/models/tagListModel';
 import Button from '@/components/Button.vue';
+import store from '@/store/index2.ts';
 
 
 
@@ -28,12 +28,12 @@ import Button from '@/components/Button.vue';
   components: {Button}
 })
 export default class Labels extends Vue {
-  tags = window.tagList;
+  tags = store.tagList;
 
   onCreateTag() {
-    const name = window.prompt('请输入标签名');
+    const name = store.prompt('请输入标签名');
     if (name) {
-      window.createTag(name)
+      store.createTag(name)
     }
   }
 }

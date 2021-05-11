@@ -54,7 +54,6 @@ const tagListModel: TagListModel = {
     return 'success';
   },
   remove(id) {
-    console.log('删除');
     let index = -1;
     for (let i = 0; i < this.data.length; i++) {
       if (this.data[i].id === id) {
