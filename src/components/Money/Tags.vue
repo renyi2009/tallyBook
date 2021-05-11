@@ -4,9 +4,9 @@
       <button @click="create">新增标签</button>
     </div><ul class="current">
     <li v-for="tag in dataSource"
-        :key="tag"
+        :key="tag.id"
         :class="{selected: selectedTags.indexOf(tag)>=0}"
-        @click="toggle(tag)">{{tag}}</li>
+        @click="toggle(tag)">{{tag.name}}</li>
   </ul>
   </div>
 </template>
@@ -45,6 +45,7 @@ export default class Tags extends Vue{
 @import "~@/assets/style/helpers.scss";
 
 .tags {
+  background: #fff;
   font-size: 14px;
   padding: 16px;
   flex-grow: 1;
