@@ -37,26 +37,27 @@ export default class EditLabel extends Vue {
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
       this.tag = tag;
-      console.log(tag);
     } else {
       this.$router.replace('/404');
     }
   }
 
   remove(id: string) {
-    tagListModel.remove(this.tag.id);
+    if (tagListModel.remove(this.tag.id)) {
+      this.$router.push('/labels')
+    }else {
+      alert('删除失败')
+    }
   }
 
   updateTag(name: string) {
     if (this.tag) {
       tagListModel.update(this.tag.id, name);
     }
-    console.log('--ss--', name);
   }
 
   goBack() {
-    console.log('back')
-    this.$router.back()
+    this.$router.back();
   }
 }
 </script>

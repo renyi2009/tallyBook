@@ -21,9 +21,6 @@ import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/models/recordListModel';
 import tagListModel from '@/models/tagListModel';
 
-console.log('---', recordListModel);
-
-// const version = window.localStorage.getItem('version') || '0';
 const recordList = recordListModel.fetch();
 const tagList = tagListModel.fetch();
 
@@ -32,7 +29,6 @@ const tagList = tagListModel.fetch();
   components: {Tags, FormItem, Types, NumberPad}
 })
 export default class Money extends Vue {
-  // tags = ['衣', '食', '住', '行'];
   tags = tagList;
   recordList = recordList;
   // eslint-disable-next-line no-undef
@@ -59,15 +55,12 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    // eslint-disable-next-line no-undef
-    const record2: RecordItem = recordListModel.clone(this.record);
-    record2.createdAt = new Date();
-    this.recordList.push(record2);
+    recordListModel.create(this.record)
   }
 
   @Watch('recordList')
   onRecordListChange() {
-    recordListModel.save(this.recordList);
+    recordListModel.save();
   }
 }
 </script>
