@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="标签名" placeholder="请输入新的标签名"></FormItem>
+      <FormItem field-name="标签名" :value="tag.name" placeholder="请输入新的标签名"></FormItem>
     </div>
     <div class="button-wrapper">
       <Button @click.native="onDelete">删除标签</Button>
@@ -25,12 +25,15 @@ import Button from '@/components/Button.vue';
   components: {FormItem, Button}
 })
 export default class EditLabel extends Vue {
+  tag: { id: string, name: string } = undefined;
+
   created() {
     const id = this.$route.params.id;
     tagListModel.fetch();
     const tags = tagListModel.data;
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
+      this.tag = tag
       console.log(tag);
     } else {
       this.$router.replace('/404');
@@ -69,11 +72,13 @@ export default class EditLabel extends Vue {
     right: 16px;
   }
 }
-.form-wrapper{
+
+.form-wrapper {
   background: #fff;
   margin-top: 8px;
 }
-.button-wrapper{
+
+.button-wrapper {
   text-align: center;
   padding: 16px;
   margin-top: 44-16px;
