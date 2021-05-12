@@ -21,13 +21,17 @@ import store from '@/store';
 @Component({
   computed: {
     tagList() {
-      return [];
+      return store.state.tagList;
     }
 
   }
 })
 export default class Tags extends Vue {
   selectedTags: string[] = [];
+
+  created() {
+    store.commit('fetchTags')
+  }
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag);
@@ -45,7 +49,7 @@ export default class Tags extends Vue {
       window.alert('标签名不能为空');
       return;
     }
-    store.createTag(name);
+    store.commit('createTag', name);
   }
 }
 </script>
