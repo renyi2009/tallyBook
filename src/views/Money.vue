@@ -22,13 +22,12 @@ import store from '@/store/index.ts';
 
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
-  computed: { // count 放在 computed 里面可以随时变更
-    recordList() {
-      return store.state.recordList;
-    }
-  }
 })
 export default class Money extends Vue {
+  get recordList() {
+    return store.state.recordList;
+  }
+
   // eslint-disable-next-line no-undef
   record: RecordItem = {
     tags: [],

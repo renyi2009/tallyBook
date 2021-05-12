@@ -26,13 +26,12 @@ import store from '@/store';
 
 @Component({
   components: {FormItem, Button},
-  computed: {
-    tag() {
-      return store.state.currentTag;
-    }
-  }
 })
 export default class EditLabel extends Vue {
+  get tag() {
+    return store.state.currentTag;
+  }
+
   created() {
     const id = this.$route.params.id;
     store.commit('setCurrentTag', id);
