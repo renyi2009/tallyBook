@@ -22,14 +22,18 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/Money/FormItem.vue';
 import Button from '@/components/Button.vue';
-import store from '@/store/index2.ts';
+import store from '@/store';
 
 @Component({
-  components: {FormItem, Button}
+  components: {FormItem, Button},
+  computed: {
+    tag() {
+      return store.findTag(this.$route.params.id);
+
+    }
+  }
 })
 export default class EditLabel extends Vue {
-  tag = store.findTag(this.$route.params.id);
-
   created() {
     if (!this.tag) {
       this.$router.replace('/404');
