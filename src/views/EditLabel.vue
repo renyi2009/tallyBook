@@ -28,13 +28,14 @@ import store from '@/store';
   components: {FormItem, Button},
   computed: {
     tag() {
-      return store.findTag(this.$route.params.id);
-
+      return store.state.currentTag;
     }
   }
 })
 export default class EditLabel extends Vue {
   created() {
+    const id = this.$route.params.id;
+    store.commit('setCurrentTag', id);
     if (!this.tag) {
       this.$router.replace('/404');
     }

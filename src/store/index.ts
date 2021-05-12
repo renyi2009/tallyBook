@@ -5,13 +5,24 @@ import createId from '@/lib/createId';
 
 Vue.use(Vuex); // 把store 绑到  Vue.prototype.$store = store 上
 
+type RootState = {
+  recordList: RecordItem[],
+  tagList: Tag[],
+  currentTag?: Tag,
+}
+
 const store = new Vuex.Store({
   state: { // data
-    recordList: [] as RecordItem[],
-    tagList: [] as Tag[],
-  },
+    recordList: [],
+    tagList: [],
+    currentTag: undefined,
+  } as RootState,
+
   mutations: { // methods
     // tag
+    setCurrentTag(state, id: string) {
+      state.currentTag = state.tagList.filter(t => t.id === id)[0];
+    },
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];
     },
@@ -29,6 +40,9 @@ const store = new Vuex.Store({
     },
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
+    },
+    findTag(state, id: string) {
+      return state.tagList.filter(t => t.id === id)[0];
     },
 
     // record
