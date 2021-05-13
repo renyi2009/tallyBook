@@ -2,7 +2,8 @@
   <ul class="tabs">
     <li v-for="item in dataSource" :key="item.value"
         :class="{[classPrefix+'-tabs-item']: classPrefix, selected: item.value===value}"
-        @click="select(item)">{{ item.text }}
+        @click="select(item)"
+        :style="{height: height}">{{ item.text }}
     </li>
   </ul>
 </template>
@@ -16,8 +17,9 @@ type DataSourceItem = { text: string, value: string }
 @Component
 export default class Types extends Vue {
   @Prop({required: true, type: Array}) dataSource!: DataSourceItem[];
-  @Prop(String) readonly value!: string;
   @Prop(String) classPrefix?: string;
+  @Prop(String) readonly value!: string;
+  @Prop({type: String, default: '64px'}) height!: number;
 
   select(item: DataSourceItem) {
     console.log('dianji', item.value);
@@ -36,7 +38,7 @@ export default class Types extends Vue {
 
   > li {
     width: 50%;
-    height: 64px;
+    //height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
