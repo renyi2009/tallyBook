@@ -1,13 +1,16 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad @update:value="onUpdateAmount" @submit="saveRecord"></NumberPad>
-    <Tabs class-prefix="type"
-          :data-source="recordTypeList"
+    <NumberPad :value.sync="record.amount" @submit="saveRecord"></NumberPad>
+    <Tabs :data-source="recordTypeList"
           :value.sync="record.type"></Tabs>
     <div class="notes">
-      <FormItem field-name="备注" placeholder="请输入备注" @update:value="onUpdateNotes"></FormItem>
+<!--      <FormItem field-name="备注" placeholder="请输入备注"
+                :value="record.notes"
+                @update:value="onUpdateNotes"></FormItem>-->
+      <FormItem field-name="备注" placeholder="请输入备注"
+                :value.sync="record.notes"></FormItem>
     </div>
-    <Tags></Tags>
+    <Tags @update:value="record.tags = $event"></Tags>
   </Layout>
 </template>
 
@@ -26,42 +29,39 @@ import Tabs from '@/components/Tabs.vue';
   components: {Tabs, Tags, FormItem, NumberPad},
 })
 export default class Money extends Vue {
-  recordTypeList = recordTypeList;
-
   get recordList() {
     return store.state.recordList;
   }
 
-  // eslint-disable-next-line no-undef
+  recordTypeList = recordTypeList;
   record: RecordItem = {
-    tags: [],
-    notes: '',
-    type: '-',
-    amount: 100
+    tags: [], notes: '', type: '-', amount: 0, createdAt: ''
   };
 
   created() {
     store.commit('fetchRecords');
   }
 
-  onUpdateNotes(value: string) {
-    console.log(value);
+ /* onUpdateNotes(value: string) {
     this.record.notes = value;
-  }
-
-  onUpdateAmount(value: string) {
-    console.log(value);
-    this.record.amount = parseFloat(value);
-  }
+  }*/
 
   saveRecord() {
-    store.commit('createRecord', this.record);
+    if (!this.record.tags || this.record.tags.length === 0) {
+      alert('请至少选择一个标签');
+      return;
+    }
+    this.$store.commit('createRecord', this.record);
+    if (store.state.createRecordError === null) {
+      alert('以保存');
+      this.record.notes = '';
+    }
   }
 }
 </script>
 
-<style>
-.layout-content {
+<style lang="scss" scoped>
+::v-deep .layout-content {
   display: flex;
   flex-direction: column-reverse;
 }

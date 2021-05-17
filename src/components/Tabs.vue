@@ -22,7 +22,6 @@ export default class Types extends Vue {
   @Prop({type: String, default: '64px'}) height!: number;
 
   select(item: DataSourceItem) {
-    console.log('dianji', item.value);
     this.$emit('update:value', item.value);
   }
 }
